@@ -1,0 +1,86 @@
+@import url('https://fonts.googleapis.com/css2?family=Sour+Gummy:ital,wght@0,100..900;1,100..900&display=swap');
+
+.mainContainer {
+    width: 310px;
+    height: 215px;
+    border: rgb(141, 199, 218) 5px solid;
+    border-radius: 20px;
+    padding: 15px;
+    position: relative;
+    
+    .removeButton {
+        position: absolute;
+        text-align: center;
+        top: 0px;
+        right: 0;
+        background-color: red;
+        border-radius: 100%;
+
+        p {
+            font-size: 1.4rem;
+            color: white;
+            margin: 0;
+            padding: 0;
+            width: 30px;
+            height: 30px;
+            vertical-align: middle;
+        }
+
+        :hover {
+            cursor: pointer;
+        }
+    }
+    
+    .container {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        height: 100%;
+        
+        .topText {
+            display: flex;
+            width: 100%;
+            justify-content: start;
+
+            img {
+                width: 100px;
+            }
+        }
+        
+        .bottomText {
+            display: flex;
+            width: 100%;
+            justify-content: end;
+
+            img {
+                width: 100px;
+            }
+        }
+        
+        .vocab{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 310px;
+            height: 200px;
+            overflow: hidden;
+            overflow-wrap: break-word;
+            vertical-align: middle;
+
+            h1 {
+                font-family: 'Sour Gummy';
+                font-size: 45px;
+                font-weight: 500;
+                text-align: center;
+                margin: 0;
+            }
+            
+            img {
+                max-width: 200px;
+                height: 140px;
+                object-fit: contain;
+            }
+        } 
+    }
+}
