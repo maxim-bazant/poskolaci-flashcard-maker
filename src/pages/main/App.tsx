@@ -117,7 +117,8 @@ export default function VocabularyApp() {
       </div>
 
       {/* Vocabulary Sheets */}
-      <div id="vocabulary-container" className={styles.sheetsContainer}>
+      <div id="vocabulary-container" className={styles.sheetsContainer}
+      style={{ gap: downloading ? 0 : "20px" }}>
         {sheets.map((sheet, sheetIndex) => (
           <div key={sheetIndex} className={styles.vocabularySheet}>
             <div style={{ paddingTop: "20px" }}>
