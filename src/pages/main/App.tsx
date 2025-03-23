@@ -75,7 +75,7 @@ export default function VocabularyApp() {
         .from(element)
         .set({
           margin: [0, 0, 0, 0], // Remove margins
-          filename: "vocabulary_sheets.pdf",
+          filename: "gruber_je_vocas.pdf",
           html2canvas: {
             scale: 2,
             logging: false,
