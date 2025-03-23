@@ -86,14 +86,23 @@ export default function VocabularyApp() {
             format: "a4",
             orientation: "portrait",
             autoPrint: true,
-            pageBreak: "after"
           },
         })
-        .save()
+        .toPdf() // Convert to PDF before saving
+        .get('pdf')
+        .then((pdf: { internal: { getNumberOfPages: () => any; }; deletePage: (arg0: any) => void; }) => {
+          const totalPages = pdf.internal.getNumberOfPages();
+          
+          if (totalPages > 1) {
+            pdf.deletePage(totalPages); // Removes the last page
+          }
+        })
+        .save() // Save the modified PDF
         .finally(() => {
-          setDownloading(false)
+          setDownloading(false);
         });
     }
+    
   };
 
   return (
