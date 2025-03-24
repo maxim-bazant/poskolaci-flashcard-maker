@@ -5,64 +5,68 @@ import html2pdf from "html2pdf.js";
 
 export default function VocabularyApp() {
   const [inputValue, setInputValue] = useState("");
-  const [vocabulary, setVocabulary] = useState<(string | { type: "image"; src: string })[]>([]);
+  const [words, setWords] = useState<string[]>([]);
+  const [images, setImages] = useState<{ type: "image"; src: string }[]>([]);
   const [sheets, setSheets] = useState<(string | { type: "image"; src: string })[][]>([]);
   const [downloading, setDownloading] = useState<Boolean>(false);
 
   useEffect(() => {
     setSheets(getSheets());
-  }, [vocabulary]);
+  }, [words, images]);
 
   // Function to chunk the array into sheets of 8 items (words + images)
   const getSheets = () => {
+    const combined = [...images, ...words];
     const sheets: (string | { type: "image"; src: string })[][] = [];
-    for (let i = 0; i < vocabulary.length; i += 8) {
-      sheets.push(vocabulary.slice(i, i + 8));
+    for (let i = 0; i < combined.length; i += 8) {
+      sheets.push(combined.slice(i, i + 8));
     }
     return sheets;
-  };
+  };  
 
   // Handle text input
   const handleTextInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setInputValue(e.target.value);
-
-    const words = e.target.value
+  
+    const newWords = e.target.value
       .split(",")
       .map((word) => word.trim())
       .filter(Boolean);
-
-    setVocabulary((prev) => {
-      const images = prev.filter((item) => typeof item !== "string"); // Keep existing images
-      return [...images, ...words]; // Merge images with new words
-    });
+  
+    setWords(newWords);
   };
+  
 
   // Handle image uploads
   const handleImageInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const fileList = e.target.files;
     if (!fileList) return;
-
+  
     const validImageTypes = ["image/jpeg", "image/png", "image/gif", "image/webp"];
     const files = Array.from(fileList);
-
+  
     files.forEach((file) => {
       if (!validImageTypes.includes(file.type)) {
         alert("Only image files are allowed.");
         return;
       }
-
+  
       const reader = new FileReader();
       reader.onloadend = () => {
-        setVocabulary((prev) => [...prev, { type: "image", src: reader.result as string }]);
+        setImages((prev) => [...prev, { type: "image", src: reader.result as string }]);
       };
-
+  
       reader.readAsDataURL(file);
     });
   };
+  
 
   const removeImage = (indexToRemove: number) => {
-    setVocabulary((prev) => prev.filter((_, index) => index !== indexToRemove));
+    console.log(indexToRemove)
+    console.log(images)
+    setImages((prev) => prev.filter((_, index) => index !== indexToRemove));
   };
+  
 
   // Generate and download PDF using html2pdf.js
   const downloadPDF = () => {
