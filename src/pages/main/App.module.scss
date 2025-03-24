@@ -89,10 +89,10 @@
 .sheetsContainer {
   display: flex;
   flex-direction: column;
-  overflow: scroll;
+  overflow: auto; // Allow scrolling in all directions
+  max-width: 100vw;
 }
 
-/* Vocabulary Cards Section */
 .vocabularySheet {
   display: flex;
   align-items: flex-start;
@@ -100,11 +100,24 @@
   justify-content: center;
   width: 210mm; /* A4 width */
   height: 297mm; /* A4 height */
-  max-height: 297mm;
   background: white;
   box-shadow: 3px 3px 15px rgba(0, 0, 0, 0.2);
-  overflow-y: hidden;
+  overflow: auto; // Enable both vertical and horizontal scrolling
 }
+
+@media (max-width: 768px) {
+  .sheetsContainer {
+    overflow: auto; // Enable full scrolling
+    max-width: 100vw;
+  }
+
+  .vocabularySheet {
+    width: 210mm; /* Ensure the full width is preserved */
+    height: 297mm; /* Ensure the full height is preserved */
+  }
+}
+
+
 
 /* Card Grid Layout */
 .cardGrid {
