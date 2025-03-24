@@ -30,9 +30,10 @@ export default function VocabularyApp() {
   
     const newWords = e.target.value
       .split(",")
-      .map((word) => word.trim())
+      .map((word) => word != " " ? word.trim() : " ") // enables to create empty card
       .filter(Boolean);
   
+    console.log(e.target.value.split(","))
     setWords(newWords);
   };
   
