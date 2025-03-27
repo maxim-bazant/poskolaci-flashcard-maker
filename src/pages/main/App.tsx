@@ -55,9 +55,11 @@ export default function VocabularyApp() {
       const reader = new FileReader();
       reader.onloadend = () => {
         setImages((prev) => [...prev, { type: "image", src: reader.result as string }]);
-        if (autoAddFromImageName) {
-          handleTextInputChange(`${inputValue ? inputValue + "," : ""}${file.name.split(".")[0]}`);
-        };
+      };
+      
+      if (autoAddFromImageName) {
+        setInputValue((prev) => prev + file.name + ",");
+        setWords((prev) => [...prev, file.name]);
       };
   
       reader.readAsDataURL(file);
@@ -66,8 +68,6 @@ export default function VocabularyApp() {
   
 
   const removeImage = (indexToRemove: number) => {
-    console.log(indexToRemove)
-    console.log(images)
     setImages((prev) => prev.filter((_, index) => index !== indexToRemove));
   };
   
