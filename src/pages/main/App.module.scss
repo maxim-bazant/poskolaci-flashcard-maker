@@ -46,6 +46,16 @@
     flex-direction: column;
   }
 
+  .inputBoxContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    
+    textarea {
+      width: auto;
+    }
+  }
+
   .uploadButton {
     background-color: #007bff;
     color: white;

@@ -9,6 +9,7 @@ export default function VocabularyApp() {
   const [images, setImages] = useState<{ type: "image"; src: string }[]>([]);
   const [sheets, setSheets] = useState<(string | { type: "image"; src: string })[][]>([]);
   const [downloading, setDownloading] = useState<Boolean>(false);
+  const [autoAddFromImageName, setAutoAddFromImageName] = useState<boolean>(false);
 
   useEffect(() => {
     setSheets(getSheets());
@@ -25,15 +26,14 @@ export default function VocabularyApp() {
   };  
 
   // Handle text input
-  const handleTextInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setInputValue(e.target.value);
+  const handleTextInputChange = (text: string) => {
+    setInputValue(text);
   
-    const newWords = e.target.value
+    const newWords = text
       .split(",")
       .map((word) => word != " " ? word.trim() : " ") // enables to create empty card
       .filter(Boolean);
   
-    console.log(e.target.value.split(","))
     setWords(newWords);
   };
   
@@ -55,6 +55,9 @@ export default function VocabularyApp() {
       const reader = new FileReader();
       reader.onloadend = () => {
         setImages((prev) => [...prev, { type: "image", src: reader.result as string }]);
+        if (autoAddFromImageName) {
+          handleTextInputChange(`${inputValue ? inputValue + "," : ""}${file.name.split(".")[0]}`);
+        };
       };
   
       reader.readAsDataURL(file);
@@ -114,12 +117,22 @@ export default function VocabularyApp() {
     <div className={styles.container}>
       {/* Input Section */}
       <div className={styles.inputContainer}>
-        <textarea
-          className={styles.inputBox}
-          value={inputValue}
-          onChange={handleTextInputChange}
-          placeholder="Enter words separated by commas..."
-        />
+        <div className={styles.inputBoxContainer}>
+          <textarea
+            className={styles.inputBox}
+            value={inputValue}
+            onChange={(e) => handleTextInputChange(e.target.value)}
+            placeholder="Enter words separated by commas..."
+          />
+          <label>
+            <input
+              type="checkbox"
+              checked={autoAddFromImageName}
+              onChange={(e) => setAutoAddFromImageName(e.target.checked)}
+            />
+            Auto-add words from image names
+          </label>
+        </div>
         <h1>OR</h1>
         <label className={styles.uploadButton}>
           Upload Images
