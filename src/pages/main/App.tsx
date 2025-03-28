@@ -58,8 +58,8 @@ export default function VocabularyApp() {
       };
       
       if (autoAddFromImageName) {
-        setInputValue((prev) => prev + file.name + ",");
-        setWords((prev) => [...prev, file.name]);
+        setInputValue((prev) => prev + file.name.split(".")[0] + ",");
+        setWords((prev) => [...prev, file.name.split(".")[0]]);
       };
   
       reader.readAsDataURL(file);
